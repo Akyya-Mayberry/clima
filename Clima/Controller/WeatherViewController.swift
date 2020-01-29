@@ -40,6 +40,13 @@ class WeatherViewController: UIViewController {
     searchTextField.endEditing(true)
     print(searchTextField.text!)
   }
+
+  @IBAction func currentLocationPressed(_ sender: UIButton) {
+    // stop location services if running to ensure request location is called
+    locationManager.stopUpdatingLocation()
+    locationManager.requestLocation()
+  }
+
 }
 
 // MARK: - Extensions
