@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController {
   
   // MARK: - Properties
   
@@ -20,7 +20,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
   var weatherManager = WeatherManager()
   
   // MARK: - Methods
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
@@ -33,7 +33,13 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
     searchTextField.endEditing(true)
     print(searchTextField.text!)
   }
-  
+}
+
+// MARK: - Extensions
+
+// MARK: - TextField Delegate
+
+extension WeatherViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     searchTextField.endEditing(true)
     print(searchTextField.text!)
@@ -55,7 +61,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
     }
     searchTextField.text = ""
   }
-  
+}
+
+// MARK: - Weather Manager Delegate
+
+extension WeatherViewController: WeatherManagerDelegate {
   func didUpdateWeather(_ weather: WeatherModel) {
     DispatchQueue.main.async {
       self.temperatureLabel.text = weather.temperatureString
@@ -67,4 +77,3 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
     print("Fetching weather failed: \(error)")
   }
 }
-
