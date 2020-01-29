@@ -92,7 +92,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
     if let location = locations.last {
       let lat = location.coordinate.latitude
       let long = location.coordinate.longitude
-      print("User current location updated: (\(lat), \(long))")
+      weatherManager.fetchWeather(lat: lat, long: long)
     }
   }
   
