@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
   
@@ -18,6 +19,7 @@ class WeatherViewController: UIViewController {
   @IBOutlet weak var searchTextField: UITextField!
   
   var weatherManager = WeatherManager()
+  let locationManager = CLLocationManager()
   
   // MARK: - Methods
   
@@ -27,6 +29,11 @@ class WeatherViewController: UIViewController {
     
     searchTextField.delegate = self
     weatherManager.delegate = self
+    locationManager.delegate = self
+    
+    // request location
+    locationManager.requestWhenInUseAuthorization()
+    locationManager.requestLocation()
   }
   
   @IBAction func searchPressed(_ sender: UIButton) {
@@ -75,5 +82,21 @@ extension WeatherViewController: WeatherManagerDelegate {
   
   func didFailWithError(_ error: Error) {
     print("Fetching weather failed: \(error)")
+  }
+}
+
+// MARK: - CLLocation Manager Delegate
+
+extension WeatherViewController: CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let location = locations.last {
+      let lat = location.coordinate.latitude
+      let long = location.coordinate.longitude
+      print("User current location updated: (\(lat), \(long))")
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Error fetching users current location: \(error)")
   }
 }
